@@ -3,8 +3,6 @@ sudo: required
 services:
   - docker
 
-before_install:
-  - docker build -t udagram-frontend ./udagram-frontend
 
 #Build Images
 after_success:
