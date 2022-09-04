@@ -6,9 +6,6 @@ services:
 before_install:
   - docker build -t udagram-frontend ./udagram-frontend
 
-script:
-  - docker run udagram-frontend npm test
-
 #Build Images
 after_success:
   - docker build -t udagram-reverseproxy ./udagram-reverseproxy
