@@ -1,18 +1,30 @@
+language: node_js
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t udagram-frontend ./udagram-frontend
+
+script:
+  - docker run udagram-frontend npm test
+
 #Build Images
-- docker build -t udagram-reverseproxy ./udagram-reverseproxy
-- docker build -t udagram-frontend ./udagram-frontend
-- docker build -t udagram-api-feed ./udagram-api-feed
-- docker build -t udagram-api-user ./udagram-api-user
+after_success:
+  - docker build -t udagram-reverseproxy ./udagram-reverseproxy
+  - docker build -t udagram-frontend ./udagram-frontend
+  - docker build -t udagram-api-feed ./udagram-api-feed
+  - docker build -t udagram-api-user ./udagram-api-user
 
-# Tagging
-- docker tag udagram-api-feed godinson/udagram-api-feed:v1
-- docker tag udagram-api-feed godinson/udagram-api-user:v1
-- docker tag udagram-api-feed godinson/udagram-frontend:v1
-- docker tag udagram-api-feed godinson/udagram-reverseproxy:v1
+  # Tagging
+  - docker tag udagram-api-feed godinson/udagram-api-feed:v1
+  - docker tag udagram-api-feed godinson/udagram-api-user:v1
+  - docker tag udagram-api-feed godinson/udagram-frontend:v1
+  - docker tag udagram-api-feed godinson/udagram-reverseproxy:v1
 
-#Push to Docker hub
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-- docker push godinson/udagram-reverseproxy:v1
-- docker push godinson/udagram-frontend:v1
-- docker push godinson/udagram-api-feed:v1
-- docker push godinson/udagram-api-user:v1
+  #Push to Docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push godinson/udagram-reverseproxy:v1
+  - docker push godinson/udagram-frontend:v1
+  - docker push godinson/udagram-api-feed:v1
+  - docker push godinson/udagram-api-user:v1
